@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "462446174061",
+    "firebase_url": "https://patrol-monitoring-app.firebaseio.com",
+    "project_id": "patrol-monitoring-app",
+    "storage_bucket": "patrol-monitoring-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462446174061:android:36c20ca42b17763f",
+        "android_client_info": {
+          "package_name": "com.project.pk.patrolmonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462446174061-cq27b688m4on7i0q6fk0c52nm652ac1v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.pk.patrolmonitor",
+            "certificate_hash": "5989d1d7d9848b5c5bdc1b33ef629aa662e1f415"
+          }
+        },
+        {
+          "client_id": "462446174061-hd8j24kehc11f5e24mfqgct7ovsb0ov5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYMXxwt83KmJyR0D4BxUqefnZ34EfsQOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462446174061-hd8j24kehc11f5e24mfqgct7ovsb0ov5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
