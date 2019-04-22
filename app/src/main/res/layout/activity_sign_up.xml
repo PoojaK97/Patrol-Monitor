@@ -5,20 +5,25 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".SignUp">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="LOGIN"
-        android:textAlignment="center"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="56dp"
+        android:fontFamily="sans-serif"
+        android:text="SIGN UP"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/email_field"
@@ -26,9 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="@string/page_1_email_hint"
+        android:hint="@string/page_2_email"
         android:inputType="textEmailAddress"
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorAccent"
@@ -47,7 +52,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="@string/page_1_password_hint"
+        android:hint="@string/page_2_password"
         android:inputType="textPassword"
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorAccent"
@@ -57,49 +62,55 @@
         tools:textColor="@color/colorAccent"
         tools:textColorHighlight="@color/white" />
 
-    <TextView
-        android:id="@+id/forgot_password"
-        android:layout_width="350dp"
-        android:layout_height="24dp"
+    <EditText
+        android:id="@+id/confirmpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:clickable="true"
-        android:text="@string/page_1_forgot_password"
-        android:textAlignment="center"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/page_2_confirm_password"
+        android:inputType="textPassword"
         android:textColor="@color/colorAccent"
-        android:textSize="18sp"
+        android:textColorHint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
-        android:layout_marginLeft="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        tools:textColor="@color/colorAccent"
+        tools:textColorHighlight="@color/white" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="@color/colorAccent"
-        android:text="@string/page_1_login_btn_hint"
+        android:text="@string/page_1_register"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmpassword" />
 
     <TextView
-        android:id="@+id/register"
-        android:layout_width="350dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="36dp"
-        android:text="Not Registered? Register here"
-        android:textAlignment="center"
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="128dp"
+        android:layout_marginStart="127dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/page_2_login"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password"
-        android:layout_marginLeft="28dp" />
+        app:layout_constraintTop_toBottomOf="@+id/register"
+        android:layout_marginRight="128dp"
+        android:layout_marginLeft="127dp" />
 
 </android.support.constraint.ConstraintLayout>
