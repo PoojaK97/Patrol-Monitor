@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         bmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), MapsActivity.class);
+                Intent myIntent = new Intent(v.getContext(), Map.class);
                 startActivity(myIntent);
             }
         });

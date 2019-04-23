@@ -22,8 +22,6 @@
     <string name="title_activity_maps">Map</string>
 
 
-
-
     <string name="page_1_email_hint">Email</string>
     <string name="page_1_login_btn_hint">LOGIN</string>
     <string name="page_1_password_hint">Password</string>
@@ -46,7 +44,6 @@
     <string name="page_3_reset">Reset Password</string>
     <string name="page_3_login">Click here to LOGIN</string>
     <string name="page_3_signup">Click here to SIGN UP</string>
-
 
 
     <string name="page_4_heading">Enter Details</string>
