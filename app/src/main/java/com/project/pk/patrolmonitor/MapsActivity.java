@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -84,26 +85,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Authenticate with Firebase when the Google map is loaded
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
-        loginToFirebase();
+        subscribeToUpdates();
     }
 
-    private void loginToFirebase() {
-        String email = getString(R.string.firebase_email);
-        String password = getString(R.string.firebase_password);
-        // Authenticate with Firebase and subscribe to updates
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    subscribeToUpdates();
-                    Log.d(TAG, "firebase auth success");
-                } else {
-                    Log.d(TAG, "firebase auth failed");
-                }
-            }
-        });
-    }
 
     private void subscribeToUpdates() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path));

@@ -23,7 +23,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".Map" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".ForgotPassword" />
