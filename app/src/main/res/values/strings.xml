@@ -19,6 +19,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="notification_text">Tracking, tap to cancel</string>
+    <string name="transport_id" translatable="false">123</string>
+    <string name="firebase_path" translatable="false">locations</string>
+    <string name="firebase_email" translatable="false">thisispooja97@gmail.com</string>
+    <string name="firebase_password" translatable="false">12345678</string>
     <string name="title_activity_maps">Map</string>
 
 
