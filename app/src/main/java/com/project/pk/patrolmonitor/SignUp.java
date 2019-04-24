@@ -27,11 +27,10 @@ public class SignUp extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextView login;
     private Button register;
-    private EditText confirmPassword;
     private EditText password;
     private EditText email;
+    private EditText pol_id;
     private ProgressDialog progressDialog;
-    public Boolean UserIsFarmer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +49,9 @@ public class SignUp extends AppCompatActivity {
 
         register = findViewById(R.id.register);
         login = findViewById(R.id.login);
-
+        pol_id = findViewById(R.id.police_id);
         email = findViewById(R.id.email_field);
         password = findViewById(R.id.password);
-        confirmPassword = findViewById(R.id.confirmpassword);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +66,6 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View view) {
                 if (view==login){
                     finish();
-
                 }
             }
         });
@@ -76,9 +73,15 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void userSignUp(){
+        String mPol_id=pol_id.getText().toString().trim();
         String mEmail=email.getText().toString().trim();
         String mPassword =password.getText().toString().trim();
-        String mConfirmPassword=confirmPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(mPol_id)) {
+            Toast.makeText(this, "Please enter the Police ID assigned to you", Toast.LENGTH_SHORT).show();
+            pol_id.requestFocus();
+            return;
+        }
 
         if (TextUtils.isEmpty(mEmail)) {
             Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
@@ -98,14 +101,6 @@ public class SignUp extends AppCompatActivity {
         if (mPassword.length()<6){
             password.setError("Minimum length of password should be 6");
             password.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(mConfirmPassword)) {
-            Toast.makeText(this, "Please confirm password", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!mPassword.equals(mConfirmPassword)) {
-            Toast.makeText(this, "Confirm password does not match your password", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -15,10 +15,10 @@
         android:layout_marginTop="72dp"
         android:layout_marginEnd="56dp"
         android:fontFamily="sans-serif"
-        android:text="SIGN UP"
+        android:text="GENERATE PASSWORD"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/colorAccent"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,23 +82,6 @@
         tools:textColor="@color/colorAccent"
         tools:textColorHighlight="@color/white" />
 
-    <EditText
-        android:id="@+id/confirmpassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        tools:textColor="@color/colorAccent"
-        tools:textColorHighlight="@color/white" />
 
     <Button
         android:id="@+id/register"
@@ -110,12 +93,12 @@
         android:layout_marginTop="48dp"
         android:background="@color/colorAccent"
         android:text="@string/page_1_register"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmpassword" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <TextView
         android:id="@+id/login"

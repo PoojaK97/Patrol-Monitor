@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,7 +81,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            FirebaseAuth.getInstance().signOut();
+            Intent mIntent = new Intent(this, LoginActivity.class);
+            startActivity(mIntent);
         }
 
         return super.onOptionsItemSelected(item);
