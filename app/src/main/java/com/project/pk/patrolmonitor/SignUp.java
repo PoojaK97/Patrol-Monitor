@@ -42,7 +42,6 @@ public class SignUp extends AppCompatActivity {
     private ProgressDialog progressDialog;
     String path;
     String path1;
-    //private String android_id = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
     int i=0;
 
     @Override
@@ -152,8 +151,9 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(SignUp.this, "Woo-hoo! Successfully registered", Toast.LENGTH_SHORT).show();
                             DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                             ref.setValue("Off Duty");
+                            String android_id = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
                             DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path1);
-                            //ref1.setValue(android_id);
+                            ref1.setValue(android_id);
                             startActivity(new Intent(com.project.pk.patrolmonitor.SignUp.this, MainActivity.class));
                             finish();
                         } else {
