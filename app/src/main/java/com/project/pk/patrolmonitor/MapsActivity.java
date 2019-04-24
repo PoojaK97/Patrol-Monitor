@@ -138,5 +138,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
     }
-
 }
