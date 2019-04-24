@@ -15,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -85,6 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Authenticate with Firebase when the Google map is loaded
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
+
+        MarkBeatPoints();
         subscribeToUpdates();
     }
 
@@ -117,6 +120,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    private void MarkBeatPoints() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("beat/rit01/23-04-19/Beat_points");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                setMarkerBP(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                setMarkerBP(dataSnapshot);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+    private void setMarkerBP(DataSnapshot dataSnapshot) {
+        // When a location update is received, put or update
+        // its value in mMarkers, which contains all the markers
+        // for locations received, so that we can build the
+        // boundaries required to show them all on the map at once
+        String key = dataSnapshot.getKey();
+        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+        double lat = Double.parseDouble(value.get("lat").toString());
+        double lng = Double.parseDouble(value.get("lon").toString());
+        LatLng location = new LatLng(lat, lng);
+        if (!mMarkers.containsKey(key)) {
+            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+        } else {
+            mMarkers.get(key).setPosition(location);
+        }
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : mMarkers.values()) {
+            builder.include(marker.getPosition());
+        }
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+    }
+
     private void setMarker(DataSnapshot dataSnapshot) {
         // When a location update is received, put or update
         // its value in mMarkers, which contains all the markers
@@ -128,7 +180,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double lng = Double.parseDouble(value.get("longitude").toString());
         LatLng location = new LatLng(lat, lng);
         if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
         } else {
             mMarkers.get(key).setPosition(location);
         }

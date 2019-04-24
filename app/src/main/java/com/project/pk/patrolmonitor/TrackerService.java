@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,7 +38,7 @@ public class TrackerService extends Service {
     public void onCreate() {
         super.onCreate();
         buildNotification();
-        loginToFirebase();
+        requestLocationUpdates();
     }
 
     private void buildNotification() {
@@ -62,34 +63,19 @@ public class TrackerService extends Service {
             // Stop the service when the notification is tapped
             unregisterReceiver(stopReceiver);
             stopSelf();
+
         }
     };
 
-    private void loginToFirebase() {
-        // Authenticate with Firebase, and request location updates
-        String email = getString(R.string.firebase_email);
-        String password = getString(R.string.firebase_password);
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
-            @Override
-            public void onComplete(Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "firebase auth success");
-                    requestLocationUpdates();
-                } else {
-                    Log.d(TAG, "firebase auth failed");
-                }
-            }
-        });
-    }
-
     private void requestLocationUpdates() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
         LocationRequest request = new LocationRequest();
         request.setInterval(10000);
         request.setFastestInterval(5000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-        final String path = getString(R.string.firebase_path) + "/" + getString(R.string.transport_id);
+        final String path = getString(R.string.firebase_path) + "/" + uid;
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_GRANTED) {
