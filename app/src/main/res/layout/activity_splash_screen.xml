@@ -13,6 +13,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
 
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/ic_app_logo" />
 
 </RelativeLayout>

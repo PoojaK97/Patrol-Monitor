@@ -4,6 +4,7 @@ package com.project.pk.patrolmonitor;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -20,15 +21,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import android.provider.Settings.Secure;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 public class SignUp extends AppCompatActivity {
@@ -40,6 +39,9 @@ public class SignUp extends AppCompatActivity {
     private EditText email;
     private EditText pol_id;
     private ProgressDialog progressDialog;
+    String path;
+    String path1;
+    //private String android_id = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
     int i=0;
 
     @Override
@@ -85,6 +87,8 @@ public class SignUp extends AppCompatActivity {
         String mPol_id=pol_id.getText().toString().trim();
         final String mEmail=email.getText().toString().trim();
         String mPassword =password.getText().toString().trim();
+        path="USERS/"+mPol_id+"/Status";
+        path1="USERS/"+mPol_id+"/DeviceID";
 
         if (TextUtils.isEmpty(mPol_id)) {
             Toast.makeText(this, "Please enter the Police ID assigned to you", Toast.LENGTH_SHORT).show();
@@ -145,6 +149,10 @@ public class SignUp extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             Toast.makeText(SignUp.this, "Woo-hoo! Successfully registered", Toast.LENGTH_SHORT).show();
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
+                            ref.setValue("Off Duty");
+                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path1);
+                            //ref1.setValue(android_id);
                             startActivity(new Intent(com.project.pk.patrolmonitor.SignUp.this, MainActivity.class));
                             finish();
                         } else {
