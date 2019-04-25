@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,7 +85,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void userSignUp(){
-        String mPol_id=pol_id.getText().toString().trim();
+        final String mPol_id=pol_id.getText().toString().trim();
         final String mEmail=email.getText().toString().trim();
         String mPassword =password.getText().toString().trim();
         path="USERS/"+mPol_id+"/Status";
@@ -129,14 +130,15 @@ public class SignUp extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
-        if (i == 0){
+        if (i == 1){
             pol_id.requestFocus();
             password.requestFocus();
-            return;
+            Intent mIntent = new Intent(this, SignUp.class);
+            startActivity(mIntent);
+
         }
 
         progressDialog.setMessage("Signing up...");
@@ -154,6 +156,11 @@ public class SignUp extends AppCompatActivity {
                             String android_id = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
                             DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path1);
                             ref1.setValue(android_id);
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            String uid = user.getUid();
+                            final String path = "ID/" + uid +"/Pol_ID";
+                            DatabaseReference r = FirebaseDatabase.getInstance().getReference(path);
+                            r.setValue(mPol_id);
                             startActivity(new Intent(com.project.pk.patrolmonitor.SignUp.this, MainActivity.class));
                             finish();
                         } else {
