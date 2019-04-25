@@ -31,7 +31,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-public class TrackerService extends Service {
+public class BeatPointService extends Service {
 
     private static final String TAG = TrackerService.class.getSimpleName();
 
@@ -41,11 +41,11 @@ public class TrackerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        buildNotification();
+        buildNotification1();
         requestLocationUpdates();
     }
 
-    private void buildNotification() {
+    private void buildNotification1() {
         String stop = "stop";
         registerReceiver(stopReceiver, new IntentFilter(stop));
         PendingIntent broadcastIntent = PendingIntent.getBroadcast(
@@ -53,7 +53,7 @@ public class TrackerService extends Service {
         // Create the persistent notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.notification_text))
+                .setContentText("You are approaching a BEAT point")
                 .setOngoing(true)
                 .setContentIntent(broadcastIntent)
                 .setSmallIcon(R.drawable.ic_tracker);
