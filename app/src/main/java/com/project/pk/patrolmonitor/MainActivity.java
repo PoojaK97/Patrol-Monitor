@@ -3,6 +3,7 @@ package com.project.pk.patrolmonitor;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PERMISSIONS_REQUEST = 1;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,15 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Logged In", Snackbar.LENGTH_LONG)
+                String eNo = "1234567890";
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + eNo));
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                    return;
+                }
+                startActivity(intent);
+                Snackbar.make(view, "Calling", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
