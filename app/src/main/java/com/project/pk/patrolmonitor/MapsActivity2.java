@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -40,14 +39,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private HashMap<String, Marker> mMarkers = new HashMap<>();
@@ -103,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
 
-        MarkBeatPoints();
+        //MarkBeatPoints();
         subscribeToUpdates();
         //mMap.addMarker(new MarkerOptions().position(curloc.get(0))
         //        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
@@ -111,53 +109,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void subscribeToUpdates() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String uid = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path)+'/'+uid);
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                double lat=dataSnapshot.child("latitude").getValue(double.class);
-                double lng=dataSnapshot.child("longitude").getValue(double.class);
-                LatLng location = new LatLng(lat, lng);
-
-                if (!mMarkers.containsKey(uid)) {
-                    mMarkers.put(uid, mMap.addMarker(new MarkerOptions().title(uid).position(location)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
-                } else {
-                    mMarkers.get(uid).setPosition(location);
-                }
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                for (Marker marker : mMarkers.values()) {
-                    builder.include(marker.getPosition());
-                }
-                changeBeatPointsStatus(location);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-    private void MarkBeatPoints() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("beat/rit01/23-04-19/Beat_points");
-        ref.keepSynced(true);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path));
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP(dataSnapshot);
+                setMarker(dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP(dataSnapshot);
+                setMarker(dataSnapshot);
             }
 
             @Override
@@ -173,107 +135,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "Failed to read value.", error.toException());
             }
         });
-    }
-    private void setMarkerBP(DataSnapshot dataSnapshot) {
-        // When a location update is received, put or update
-        // its value in mMarkers, which contains all the markers
-        // for locations received, so that we can build the
-        // boundaries required to show them all on the map at once
-        String key = dataSnapshot.getKey();
-        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("lat").toString());
-        double lng = Double.parseDouble(value.get("lon").toString());
-        LatLng location = new LatLng(lat, lng);
-        if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).zIndex(1).position(location)));
-        } else {
-            mMarkers.get(key).setPosition(location);
-        }
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkers.values()) {
-            builder.include(marker.getPosition());
-        }
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-    }
-
-    private void changeBeatPointsStatus(final LatLng cur) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("beat/rit01/23-04-19/Beat_points");
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP2(dataSnapshot,cur);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP2(dataSnapshot,cur);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.d(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-    private void setMarkerBP2(DataSnapshot dataSnapshot, LatLng cur) {
-        // When a location update is received, put or update
-        // its value in mMarkers, which contains all the markers
-        // for locations received, so that we can build the
-        // boundaries required to show them all on the map at once
-        String key = dataSnapshot.getKey();
-        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("lat").toString());
-        double lng = Double.parseDouble(value.get("lon").toString());
-        LatLng location = new LatLng(lat, lng);
-
-        //if (CalculationByDistance(location, cur) <= 50) {
-
-        Circle mCircle;
-        mCircle = mMap.addCircle(new CircleOptions()
-                .center(location)
-                .radius(500.0)
-                .strokeWidth(5f)
-                .strokeColor(Color.argb(50,255,0,0))
-                .fillColor(Color.argb(10,100,10,10)));
-
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-        //}
-
-        float[] distance = new float[2];
-
-        Location.distanceBetween( cur.latitude,cur.longitude,
-                mCircle.getCenter().latitude, mCircle.getCenter().longitude, distance);
-
-        if( distance[0] < mCircle.getRadius()  ){
-            mCircle.remove();
-            mCircle = mMap.addCircle(new CircleOptions()
-                    .center(location)
-                    .radius(500.0)
-                    .strokeWidth(5f)
-                    .strokeColor(Color.argb(50,0,255,0))
-                    .fillColor(Color.argb(10,10,100,10)));
-            startService(new Intent(this, BeatPointService.class));
-
-
-        }
 
     }
+
 
     private void setMarker(DataSnapshot dataSnapshot) {
         // When a location update is received, put or update
         // its value in mMarkers, which contains all the markers
         // for locations received, so that we can build the
         // boundaries required to show them all on the map at once
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
         String key = dataSnapshot.getKey();
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
         double lat = Double.parseDouble(value.get("latitude").toString());
@@ -293,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (Marker marker : mMarkers.values()) {
             builder.include(marker.getPosition());
         }
-        changeBeatPointsStatus(location);
+        //changeBeatPointsStatus(location);
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
     }
 }

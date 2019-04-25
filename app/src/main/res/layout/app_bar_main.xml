@@ -34,7 +34,16 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|center_horizontal"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="100dp"
         android:text="START PATROLLING" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="100dp"
+        android:text="SEE FELLOW PATROLLERS" />
 
 </android.support.design.widget.CoordinatorLayout>

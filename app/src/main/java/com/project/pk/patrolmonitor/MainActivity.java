@@ -51,6 +51,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        Button bmap2 = findViewById(R.id.button2);
+        bmap2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(), MapsActivity2.class);
+                startActivity(myIntent);
+            }
+        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
