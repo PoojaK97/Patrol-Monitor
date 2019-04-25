@@ -125,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void subscribeToUpdates() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path)+'/'+uid);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location"+'/'+uid);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

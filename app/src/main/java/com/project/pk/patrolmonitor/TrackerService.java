@@ -101,6 +101,7 @@ public class TrackerService extends Service {
         String time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         Log.d("TIME",  date + time);
         final String path = "beat/"+pol_id+"/"+date+"/locs/"+time;
+        final String path1 = "Current_location/"+uid;
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_GRANTED) {
@@ -110,10 +111,12 @@ public class TrackerService extends Service {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
+                    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path1);
                     Location location = locationResult.getLastLocation();
                     if (location != null) {
                         Log.d(TAG, "location update " + location);
                         ref.setValue(location);
+                        ref1.setValue(location);
                     }
                 }
             }, null);

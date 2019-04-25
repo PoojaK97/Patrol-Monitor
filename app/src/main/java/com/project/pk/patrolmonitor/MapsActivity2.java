@@ -121,8 +121,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
 
     private void subscribeToUpdates() {
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path));
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location");
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
