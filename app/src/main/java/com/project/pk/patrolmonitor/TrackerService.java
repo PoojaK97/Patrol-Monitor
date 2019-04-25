@@ -42,6 +42,7 @@ public class TrackerService extends Service {
     public void onCreate() {
         super.onCreate();
         buildNotification();
+        buildNotification1();
         requestLocationUpdates();
     }
 
@@ -54,6 +55,21 @@ public class TrackerService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_text))
+                .setOngoing(true)
+                .setContentIntent(broadcastIntent)
+                .setSmallIcon(R.drawable.ic_tracker);
+        startForeground(1, builder.build());
+    }
+
+    private void buildNotification1() {
+        String stop = "stop";
+        registerReceiver(stopReceiver, new IntentFilter(stop));
+        PendingIntent broadcastIntent = PendingIntent.getBroadcast(
+                this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
+        // Create the persistent notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("You are approaching a BEAT point")
                 .setOngoing(true)
                 .setContentIntent(broadcastIntent)
                 .setSmallIcon(R.drawable.ic_tracker);
