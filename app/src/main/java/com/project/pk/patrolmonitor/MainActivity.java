@@ -135,12 +135,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-
+            Intent mIntent = new Intent(this, Camera.class);
+            startActivity(mIntent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-            Intent mIntent = new Intent(this, Camera.class);
-            startActivity(mIntent);
+
         } else if (id == R.id.nav_send) {
 
         }

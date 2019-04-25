@@ -31,9 +31,16 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.Locale;
+
 public class TrackerService extends Service {
 
     private static final String TAG = TrackerService.class.getSimpleName();
+    String pol_id;
 
     @Override
     public IBinder onBind(Intent intent) {return null;}
@@ -75,11 +82,25 @@ public class TrackerService extends Service {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         LocationRequest request = new LocationRequest();
-        request.setInterval(10000);
+        request.setInterval(120000);
         request.setFastestInterval(5000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-        final String path = getString(R.string.firebase_path) + "/" + uid;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("ID/"+uid+"Pol_ID");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                pol_id = dataSnapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        Log.d("TIME",  date + time);
+        final String path = "beat/"+pol_id+"/"+date+"/locs/"+time;
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_GRANTED) {
