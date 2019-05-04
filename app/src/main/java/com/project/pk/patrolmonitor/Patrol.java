@@ -10,6 +10,5 @@ public class Patrol extends Application {
     {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
     }
 }

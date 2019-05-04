@@ -49,14 +49,5 @@
     <string name="page_3_reset">Reset Password</string>
     <string name="page_3_login">Click here to LOGIN</string>
     <string name="page_3_signup">Click here to SIGN UP</string>
-
-
-    <string name="page_4_heading">Enter Details</string>
-
-
-    <string name="page_5_heading">All Farmers</string>
-
-
-    <string name="page_6_heading">Farmer Profile</string>
     <string name="title_activity_maps2">Map</string>
 </resources>

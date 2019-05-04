@@ -49,63 +49,33 @@ import java.util.List;
 
 public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallback {
 
-    private static final String TAG = MapsActivity.class.getSimpleName();
+    private static final String TAG = MapsActivity2.class.getSimpleName();
     private HashMap<String, Marker> mMarkers = new HashMap<>();
     private GoogleMap mMap;
     private static final int PERMISSIONS_REQUEST = 1;
     private LatLng curloc;
-    private Button im;
+    private Button image;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
-        im = findViewById(R.id.image);
-
-        im.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), Camera.class);
-                startActivity(myIntent);
-            }
-        });
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "Please enable location services", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        // Check location permission is granted - if it is, start
-        // the service, otherwise request the permission
-        int permission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permission == PackageManager.PERMISSION_GRANTED) {
-            startTrackerService();
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST);
-        }
+        image = findViewById(R.id.image);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(mIntent);
+            }
+        });
     }
 
-    private void startTrackerService() {
-        startService(new Intent(this, TrackerService.class));
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
-            grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST && grantResults.length == 1
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // Start the service when the permission is granted
-            startTrackerService();
-        } else {
-            finish();
-        }
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -121,7 +91,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
 
     private void subscribeToUpdates() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location");
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("locations");
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {

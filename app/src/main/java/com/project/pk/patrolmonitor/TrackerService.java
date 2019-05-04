@@ -41,7 +41,6 @@ public class TrackerService extends Service {
 
     private static final String TAG = TrackerService.class.getSimpleName();
     String pol_id;
-    String path;
 
     @Override
     public IBinder onBind(Intent intent) {return null;}
@@ -83,28 +82,10 @@ public class TrackerService extends Service {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
         LocationRequest request = new LocationRequest();
-        request.setInterval(120000);
+        request.setInterval(1000);
         request.setFastestInterval(5000);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("ID/"+uid+"/Pol_ID");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                pol_id = dataSnapshot.getValue(String.class);
-                String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                String time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-                path = "beat/"+pol_id+"/"+date+"/locs/"+time;
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        String time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-        Log.d("TIME",  date + time);
-        final String path1 = "Current_location/"+uid;
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permission == PackageManager.PERMISSION_GRANTED) {
@@ -113,6 +94,12 @@ public class TrackerService extends Service {
             client.requestLocationUpdates(request, new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = user.getUid();
+                    final String path1 = "locations/"+uid;
+                    String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                    String time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                    final String path = "beat/"+uid+"/"+date+"/locs/"+time;
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                     DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference(path1);
                     Location location = locationResult.getLastLocation();

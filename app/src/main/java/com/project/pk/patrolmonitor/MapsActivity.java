@@ -114,7 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Authenticate with Firebase when the Google map is loaded
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
-
+        //startService(new Intent(this, TrackerService.class));
         MarkBeatPoints();
         subscribeToUpdates();
         //mMap.addMarker(new MarkerOptions().position(curloc.get(0))
@@ -125,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void subscribeToUpdates() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location"+'/'+uid);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("locations/"+uid);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -272,9 +272,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .strokeWidth(5f)
                     .strokeColor(Color.argb(50,0,255,0))
                     .fillColor(Color.argb(10,10,100,10)));
-            startService(new Intent(this, BeatPointService.class));
-
-
         }
 
     }

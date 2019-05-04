@@ -39,15 +39,12 @@
             android:label="@string/title_activity_maps2" />
 
         <service
-            android:name=".BeatPointService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".TrackerService"
             android:enabled="true"
             android:exported="true" />
 
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ListActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".Camera" />
